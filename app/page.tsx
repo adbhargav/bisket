@@ -590,7 +590,7 @@ export default function Page() {
         What Our Customers Say
       </h2>
       <p className="text-[#f5eddc]/80 max-w-2xl mx-auto">
-        Don't just take our word for it — hear from our cherished customers
+        Do not just take our word for it &#8212; hear from our cherished customers
       </p>
     </div>
 
