@@ -167,7 +167,10 @@ const Navbar = ({ cartCount }: NavbarProps) => {
             variant="ghost"
             size="icon"
             className="md:hidden text-[#f5eddc] hover:bg-[#1c120c]"
-            onClick={() => setIsMenuOpen(!isMenuOpen)}
+            onClick={() => {
+              setIsMenuOpen(!isMenuOpen);
+              setIsAuthOpen(false);
+            }}
           >
             {isMenuOpen ? <X className="h-5 w-5" /> : <Menu className="h-5 w-5" />}
           </Button>
@@ -211,7 +214,10 @@ const Navbar = ({ cartCount }: NavbarProps) => {
               variant="ghost"
               size="icon"
               className="text-[#f5eddc] hover:bg-[#1c120c]"
-              onClick={() => setIsAuthOpen(!isAuthOpen)}
+              onClick={() => {
+                setIsAuthOpen(!isAuthOpen);
+                setIsMenuOpen(false);
+              }}
             >
               <User className="h-5 w-5" />
             </Button>
