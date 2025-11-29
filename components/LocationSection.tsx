@@ -1,5 +1,4 @@
 "use client";
-
 import React from "react";
 import { motion } from "framer-motion";
 import { MapPin, Clock, Phone, Navigation } from "lucide-react";
