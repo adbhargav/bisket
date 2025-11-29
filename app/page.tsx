@@ -1,4 +1,3 @@
-
 "use client";
 export const dynamic = "force-dynamic";
 
@@ -10,6 +9,7 @@ import { MapPin, Clock, Phone, Instagram, Utensils, Leaf, Coffee, Sandwich, Spro
 import Menu from "@/components/Menu";
 import Image from "next/image";
 import Navbar from "@/components/Navbar";
+import LocationSection from "@/components/LocationSection";
 
 /**
  * Chai Bisket — Single‑file Landing Page
@@ -35,7 +35,7 @@ const bananaLeafSvg = (
 );
 
 const Section = ({ id, children, className = "" }: { id?: string, children: React.ReactNode, className?: string }) => (
-  <section id={id} className={`relative py-16 md:py-24 ${className}`}>{children}</section>
+  <section id={id} className={`relative py-12 md:py-16 ${className}`}>{children}</section>
 );
 
 const Container = ({ children, className = "" }: { children: React.ReactNode, className?: string }) => (
@@ -113,7 +113,7 @@ const SafeImage = ({ src, alt, className = "", label }: { src: string, alt?: str
 };
 // --- Robust ContactForm (paste above the default export in app/page.tsx) ---
 function ContactForm() {
-  const [status, setStatus] = React.useState<"idle"|"sending"|"ok"|"error">("idle");
+  const [status, setStatus] = React.useState<"idle" | "sending" | "ok" | "error">("idle");
   const [errorMsg, setErrorMsg] = React.useState<string>("");
 
   const onSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
@@ -158,11 +158,11 @@ function ContactForm() {
       <input name="phone" className="border border-[#2d1a11] bg-[#050302] text-[#f5eddc] placeholder:text-[#f5eddc]/40 rounded-xl px-4 py-3 focus:outline-none focus:ring-2 focus:ring-[#c87534]" placeholder="Phone number (optional)" />
       <input name="website" className="hidden" tabIndex={-1} autoComplete="off" />
       <textarea name="message" rows={4} className="border border-[#2d1a11] bg-[#050302] text-[#f5eddc] placeholder:text-[#f5eddc]/40 rounded-xl px-4 py-3 focus:outline-none focus:ring-2 focus:ring-[#c87534]" placeholder="Tell us about your event or question (e.g., party size, date, special requests)" required />
-      <Button type="submit" disabled={status==="sending"}>
-        {status==="sending" ? "Sending..." : "Send Message"}
+      <Button type="submit" disabled={status === "sending"}>
+        {status === "sending" ? "Sending..." : "Send Message"}
       </Button>
-      {status==="ok" && <div className="text-sm text-[#c87534] font-medium">Thanks! We’ve received your message and will get back to you shortly.</div>}
-      {status==="error" && <div className="text-sm text-[#ff9b7a]">Something went wrong. Please try again. {errorMsg && <span className="opacity-70">({errorMsg})</span>}</div>}
+      {status === "ok" && <div className="text-sm text-[#c87534] font-medium">Thanks! We’ve received your message and will get back to you shortly.</div>}
+      {status === "error" && <div className="text-sm text-[#ff9b7a]">Something went wrong. Please try again. {errorMsg && <span className="opacity-70">({errorMsg})</span>}</div>}
     </form>
   );
 }
@@ -197,7 +197,7 @@ export default function Page() {
     if (typeof window !== 'undefined') {
       const savedCart = localStorage.getItem('cart');
       let cart = [];
-      
+
       if (savedCart) {
         try {
           cart = JSON.parse(savedCart);
@@ -205,10 +205,10 @@ export default function Page() {
           cart = [];
         }
       }
-      
+
       // Check if item already exists in cart
       const existingItem = cart.find((item: { id: number }) => item.id === itemId);
-      
+
       if (existingItem) {
         // Update quantity
         cart = cart.map((item: { id: number; quantity: number }) =>
@@ -218,13 +218,13 @@ export default function Page() {
         // Add new item
         cart.push({ id: itemId, quantity: 1 });
       }
-      
+
       // Save to localStorage
       localStorage.setItem('cart', JSON.stringify(cart));
-      
+
       // Update cart count
       setCartCount(getCartCount());
-      
+
       // Dispatch event to notify other components
       window.dispatchEvent(new CustomEvent('cartUpdated', { detail: { cart } }));
     }
@@ -258,28 +258,28 @@ export default function Page() {
     const bannerInterval = setInterval(() => {
       setActiveBanner((prev) => (prev + 1) % heroBanners.length);
     }, 3000);
-    
+
     // Listen for storage changes (in case cart is updated in another tab)
     const handleStorageChange = () => {
       setCartCount(getCartCount());
       checkLoginStatus();
     };
-    
+
     window.addEventListener('storage', handleStorageChange);
-    
+
     // Listen for cart updates from Menu component
     const handleCartUpdate = () => {
       setCartCount(getCartCount());
     };
-    
+
     window.addEventListener('cartUpdated', handleCartUpdate);
-    
+
     // Also check for changes periodically
     const interval = setInterval(() => {
       setCartCount(getCartCount());
       checkLoginStatus();
     }, 1000);
-    
+
     return () => {
       window.removeEventListener('storage', handleStorageChange);
       window.removeEventListener('cartUpdated', handleCartUpdate);
@@ -292,7 +292,7 @@ export default function Page() {
     <div className="min-h-screen bg-[#050302] text-[#f5eddc]">
       {/* Use the Navbar component */}
       <Navbar cartCount={cartCount} />
-      
+
       {/* HERO */}
       <Section id="home" className="relative overflow-hidden min-h-[650px] flex items-center py-20">
         <div className="absolute inset-0">
@@ -315,7 +315,7 @@ export default function Page() {
         </div>
 
         <Container>
-          <motion.div 
+          <motion.div
             initial={{ opacity: 0, y: 30 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8, ease: "easeOut" }}
@@ -328,7 +328,7 @@ export default function Page() {
               </span>
               Now serving in Cumming, GA
             </span>
-            
+
             <h1 className="text-4xl sm:text-5xl lg:text-6xl xl:text-7xl font-bold leading-tight tracking-tight text-[#f5eddc] drop-shadow-[0_6px_25px_rgba(0,0,0,0.45)]">
               Biryani is an{" "}
               <span className="relative inline-block px-2">
@@ -348,7 +348,7 @@ export default function Page() {
             </p>
 
             <div className="mt-8 sm:mt-10 flex flex-col sm:flex-row gap-3 sm:gap-4">
-              <Button 
+              <Button
                 className="py-5 sm:py-6 px-6 sm:px-8 text-base font-medium rounded-xl shadow-lg hover:shadow-amber-500/20 transition-all duration-300"
                 size="lg"
                 asChild
@@ -358,13 +358,13 @@ export default function Page() {
                   Explore Our Menu
                 </a>
               </Button>
-              <Button 
-                variant="outline" 
+              <Button
+                variant="outline"
                 className="py-5 sm:py-6 px-6 sm:px-8 text-base font-medium rounded-xl transition-all duration-300"
                 size="lg"
                 asChild
               >
-                <a href="#contact" className="flex items-center justify-center sm:justify-start gap-2">
+                <a href="#order-options" className="flex items-center justify-center sm:justify-start gap-2">
                   <Phone className="h-5 w-5" />
                   Order Now
                 </a>
@@ -372,7 +372,7 @@ export default function Page() {
             </div>
 
             <div className="mt-6">
-              <Button 
+              <Button
                 className="py-4 px-6 text-base font-medium rounded-xl shadow-lg bg-gradient-to-r from-[#f0a35c] to-[#d97a3a] hover:from-[#f5b97a] hover:to-[#e08a4a] transition-all duration-300 transform hover:scale-105"
                 size="lg"
                 asChild
@@ -380,7 +380,7 @@ export default function Page() {
                 <a href="#specials" className="flex items-center justify-center gap-2">
                   <span className="relative flex h-3 w-3">
                     <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-white opacity-75"></span>
-                  <span className="relative inline-flex rounded-full h-3 w-3 bg-white"></span>
+                    <span className="relative inline-flex rounded-full h-3 w-3 bg-white"></span>
                   </span>
                   Today&apos;s Special
                 </a>
@@ -423,7 +423,7 @@ export default function Page() {
 
       {/* MARQUEE - Hidden on mobile, visible on md screens and up */}
       <div className="hidden md:block relative overflow-hidden bg-[#120a07]">
-        <div className="pointer-events-none absolute inset-0 bg-gradient-to-r from-[#120a07] via-transparent to-[#120a07] z-10"/>
+        <div className="pointer-events-none absolute inset-0 bg-gradient-to-r from-[#120a07] via-transparent to-[#120a07] z-10" />
         <div className="whitespace-nowrap animate-[marquee_20s_linear_infinite] py-3 text-sm font-medium text-[#f5eddc]/80 md:animate-[marquee_30s_linear_infinite]">
           <span className="mx-4 md:mx-8">Irani Chai</span>
           <span className="mx-4 md:mx-8">Osmania Biscuits</span>
@@ -433,7 +433,7 @@ export default function Page() {
           <span className="mx-4 md:mx-8">Vada Pav</span>
           <span className="mx-4 md:mx-8">Chicken 65</span>
           <span className="mx-4 md:mx-8">Kulfi & Falooda</span>
-          
+
           {/* Duplicate items for seamless loop - hidden on mobile */}
           <span className="hidden md:inline-block mx-4 md:mx-8">Irani Chai</span>
           <span className="hidden md:inline-block mx-4 md:mx-8">Osmania Biscuits</span>
@@ -447,7 +447,7 @@ export default function Page() {
       </div>
 
       {/* TODAY'S SPECIAL */}
-      <Section id="specials" className="py-16 bg-[#0b0503]">
+      <Section id="specials" className="bg-[#0b0503]">
         <Container>
           <div className="text-center mb-12">
             <h2 className="text-3xl md:text-4xl font-bold text-[#f5eddc] mb-4">Today&apos;s Special</h2>
@@ -455,7 +455,7 @@ export default function Page() {
               Discover our chef&apos;s special creations for the day, crafted with the finest ingredients and authentic flavors.
             </p>
           </div>
-          
+
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
             {/* Special Item 1 */}
             <div className="bg-[#120a07] rounded-2xl overflow-hidden border border-[#2d1a11] shadow-lg hover:shadow-xl transition-all duration-300">
@@ -473,7 +473,7 @@ export default function Page() {
                   <span className="text-amber-200 font-bold">$12.99</span>
                 </div>
                 <p className="text-[#f5eddc]/80 mb-4">Authentic dum biryani with tender meat and fragrant basmati rice.</p>
-                <Button 
+                <Button
                   onClick={() => addToCart(15)}
                   className="w-full bg-gradient-to-r from-[#f0a35c] to-[#d97a3a] hover:from-[#f5b97a] hover:to-[#e08a4a]"
                 >
@@ -481,7 +481,7 @@ export default function Page() {
                 </Button>
               </div>
             </div>
-            
+
             {/* Special Item 2 */}
             <div className="bg-[#120a07] rounded-2xl overflow-hidden border border-[#2d1a11] shadow-lg hover:shadow-xl transition-all duration-300">
               <div className="relative h-48">
@@ -498,7 +498,7 @@ export default function Page() {
                   <span className="text-amber-200 font-bold">$3.99</span>
                 </div>
                 <p className="text-[#f5eddc]/80 mb-4">Traditional strong tea with spices, served with Osmania biscuits.</p>
-                <Button 
+                <Button
                   onClick={() => addToCart(4)}
                   className="w-full bg-gradient-to-r from-[#f0a35c] to-[#d97a3a] hover:from-[#f5b97a] hover:to-[#e08a4a]"
                 >
@@ -506,7 +506,7 @@ export default function Page() {
                 </Button>
               </div>
             </div>
-            
+
             {/* Special Item 3 */}
             <div className="bg-[#120a07] rounded-2xl overflow-hidden border border-[#2d1a11] shadow-lg hover:shadow-xl transition-all duration-300">
               <div className="relative h-48">
@@ -523,7 +523,7 @@ export default function Page() {
                   <span className="text-amber-200 font-bold">$9.99</span>
                 </div>
                 <p className="text-[#f5eddc]/80 mb-4">Spicy deep-fried chicken with authentic South Indian spices.</p>
-                <Button 
+                <Button
                   onClick={() => addToCart(13)}
                   className="w-full bg-gradient-to-r from-[#f0a35c] to-[#d97a3a] hover:from-[#f5b97a] hover:to-[#e08a4a]"
                 >
@@ -536,12 +536,12 @@ export default function Page() {
       </Section>
 
       {/* MENU SECTION */}
-      <Section id="menu" className="py-16 bg-[#0b0503]">
+      <Section id="menu" className="bg-[#0b0503]">
         <Menu onCartUpdate={() => setCartCount(getCartCount())} />
       </Section>
 
-{/* GALLERY */}
-      <Section id="gallery" className="bg-[#120a07]">
+      {/* GALLERY */}
+      <Section id="our-story" className="bg-[#120a07]">
         <Container>
           <div className="text-center max-w-2xl mx-auto">
             <h2 className="text-3xl md:text-4xl font-bold tracking-tight">Moments & Mood</h2>
@@ -552,7 +552,7 @@ export default function Page() {
               <div key={i} className="aspect-square overflow-hidden rounded-2xl">
                 <SafeImage
                   src={src}
-                  alt={`Chai Bisket gallery ${i+1}`}
+                  alt={`Chai Bisket gallery ${i + 1}`}
                   className="w-full h-full object-cover hover:scale-105 transition-transform duration-500"
                 />
               </div>
@@ -561,7 +561,7 @@ export default function Page() {
           <div className="text-center mt-6">
             <Button variant="outline" className="border-[#f5eddc]/40">
               <a href="https://instagram.com/chaibisket_eats" target="_blank" rel="noreferrer" className="inline-flex items-center gap-2">
-                <Instagram className="mr-2 h-4 w-4"/>Follow @chaibisket_eats
+                <Instagram className="mr-2 h-4 w-4" />Follow @chaibisket_eats
               </a>
             </Button>
           </div>
@@ -570,7 +570,7 @@ export default function Page() {
 
       {/* Floating Catering Button - Mobile Only */}
       <div className="fixed bottom-6 right-6 z-50 lg:hidden">
-        <a 
+        <a
           href="#contact"
           className="flex items-center justify-center w-14 h-14 rounded-full bg-gradient-to-r from-[#c87534] to-[#8a4b24] text-[#120a06] shadow-lg hover:shadow-xl transition-all duration-300 transform hover:scale-105"
           aria-label="Get a Catering Quote"
@@ -583,76 +583,76 @@ export default function Page() {
 
 
       {/* TESTIMONIALS */}
-<Section id="testimonials" className="bg-[#0b0503]">
-  <Container>
-    <div className="text-center mb-12">
-      <h2 className="text-3xl md:text-4xl font-bold text-[#f5eddc] mb-4">
-        What Our Customers Say
-      </h2>
-      <p className="text-[#f5eddc]/80 max-w-2xl mx-auto">
-        Do not just take our word for it &#8212; hear from our cherished customers
-      </p>
-    </div>
-
-    <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-      {/* Testimonial Card */}
-      {[
-        {
-          name: "Priya Sharma",
-          role: "Food Blogger",
-          text: `"The Hyderabadi Biryani here is the closest I've found to my grandmother's recipe. Authentic flavors that transport you straight to the streets of Hyderabad."`,
-        },
-        {
-          name: "Rahul Mehta",
-          role: "Local Resident",
-          text: `"Their Irani Chai paired with Osmania biscuits is my daily ritual. The perfect start to any day, reminding me of the chai stalls back home in Mumbai."`,
-        },
-        {
-          name: "Anita Desai",
-          role: "Catering Client",
-          text: `"We hired Chai Bisket for our corporate event and they exceeded expectations. The live biryani station was a huge hit, and the service was impeccable!"`,
-        },
-      ].map((item, index) => (
-        <motion.div
-          key={index}
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.5, delay: index * 0.1 }}
-          viewport={{ once: true }}
-          className="bg-[#120a07] rounded-2xl p-6 border border-[#2d1a11] shadow-lg hover:shadow-xl transition-all duration-300 hover:border-[#c87534]/50"
-        >
-          {/* Name + Role */}
-          <div className="mb-4">
-            <h4 className="text-lg font-bold text-[#f5eddc]">{item.name}</h4>
-            <p className="text-[#f0a35c] text-sm">{item.role}</p>
+      <Section id="testimonials" className="bg-[#0b0503]">
+        <Container>
+          <div className="text-center mb-12">
+            <h2 className="text-3xl md:text-4xl font-bold text-[#f5eddc] mb-4">
+              What Our Customers Say
+            </h2>
+            <p className="text-[#f5eddc]/80 max-w-2xl mx-auto">
+              Do not just take our word for it &#8212; hear from our cherished customers
+            </p>
           </div>
 
-          {/* Stars */}
-          <div className="flex mb-4">
-            {[...Array(5)].map((_, i) => (
-              <svg
-                key={i}
-                className="w-5 h-5 text-[#f0a35c]"
-                fill="currentColor"
-                viewBox="0 0 20 20"
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+            {/* Testimonial Card */}
+            {[
+              {
+                name: "Priya Sharma",
+                role: "Food Blogger",
+                text: `"The Hyderabadi Biryani here is the closest I've found to my grandmother's recipe. Authentic flavors that transport you straight to the streets of Hyderabad."`,
+              },
+              {
+                name: "Rahul Mehta",
+                role: "Local Resident",
+                text: `"Their Irani Chai paired with Osmania biscuits is my daily ritual. The perfect start to any day, reminding me of the chai stalls back home in Mumbai."`,
+              },
+              {
+                name: "Anita Desai",
+                role: "Catering Client",
+                text: `"We hired Chai Bisket for our corporate event and they exceeded expectations. The live biryani station was a huge hit, and the service was impeccable!"`,
+              },
+            ].map((item, index) => (
+              <motion.div
+                key={index}
+                initial={{ opacity: 0, y: 20 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.5, delay: index * 0.1 }}
+                viewport={{ once: true }}
+                className="bg-[#120a07] rounded-2xl p-6 border border-[#2d1a11] shadow-lg hover:shadow-xl transition-all duration-300 hover:border-[#c87534]/50"
               >
-                <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
-              </svg>
+                {/* Name + Role */}
+                <div className="mb-4">
+                  <h4 className="text-lg font-bold text-[#f5eddc]">{item.name}</h4>
+                  <p className="text-[#f0a35c] text-sm">{item.role}</p>
+                </div>
+
+                {/* Stars */}
+                <div className="flex mb-4">
+                  {[...Array(5)].map((_, i) => (
+                    <svg
+                      key={i}
+                      className="w-5 h-5 text-[#f0a35c]"
+                      fill="currentColor"
+                      viewBox="0 0 20 20"
+                    >
+                      <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
+                    </svg>
+                  ))}
+                </div>
+
+                {/* Text */}
+                <p className="text-[#f5eddc]/80 italic">{item.text}</p>
+              </motion.div>
             ))}
           </div>
-
-          {/* Text */}
-          <p className="text-[#f5eddc]/80 italic">{item.text}</p>
-        </motion.div>
-      ))}
-    </div>
-  </Container>
-</Section>
+        </Container>
+      </Section>
 
 
       {/* Floating Catering Button - Mobile Only */}
       <div className="fixed bottom-6 right-6 z-50 lg:hidden">
-        <a 
+        <a
           href="#contact"
           className="flex items-center justify-center w-14 h-14 rounded-full bg-gradient-to-r from-[#c87534] to-[#8a4b24] text-[#120a06] shadow-lg hover:shadow-xl transition-all duration-300 transform hover:scale-105"
           aria-label="Get a Catering Quote"
@@ -663,9 +663,15 @@ export default function Page() {
         </a>
       </div>
 
+      {/* LOCATION SECTION */}
+      <Section id="location" className="bg-[#120a07]">
+        <LocationSection />
+      </Section>
+
       {/* CONTACT / CATERING */}
-      <Section id="contact" className="bg-[#0b0503] pt-20 lg:pt-24">
+      <Section id="contact" className="bg-[#0b0503]">
         <Container>
+          <div id="order-options" className="scroll-mt-32" />
           <div className="grid md:grid-cols-2 gap-8 items-start">
             <Card className="rounded-3xl">
               <CardHeader>
@@ -677,7 +683,7 @@ export default function Page() {
               </CardContent>
             </Card>
             <div className="bg-gradient-to-br from-[#2b160d] to-[#5a2d1a] text-[#f5eddc] rounded-3xl p-8 shadow-xl relative overflow-hidden">
-              <div className="absolute -top-10 -right-10 w-48 h-48 bg-[#f5eddc]/10 rounded-full"/>
+              <div className="absolute -top-10 -right-10 w-48 h-48 bg-[#f5eddc]/10 rounded-full" />
               <h3 className="text-2xl font-semibold">Hosting a Party?</h3>
               <p className="mt-3 text-[#f5eddc]/80">From chai counters to biryani bars — we cater birthdays, office events, and desi celebrations.</p>
               <ul className="mt-4 space-y-2 text-sm text-[#f5eddc]/90">
@@ -685,7 +691,7 @@ export default function Page() {
                 <li className="flex items-center gap-2"><div className="w-1.5 h-1.5 rounded-full bg-[#f5eddc]"></div> Bulk chai, biscuits & snacks</li>
                 <li className="flex items-center gap-2"><div className="w-1.5 h-1.5 rounded-full bg-[#f5eddc]"></div> On‑site live stations</li>
               </ul>
-              <a 
+              <a
                 href="#contact"
                 className="inline-flex items-center justify-center px-6 py-3 sm:px-8 sm:py-3.5 text-sm sm:text-base font-semibold text-center text-[#120a06] bg-gradient-to-r from-[#f0a35c] to-[#c87534] hover:from-[#f5b97a] hover:to-[#d8843d] rounded-xl shadow-md hover:shadow-lg transition-all duration-200 transform hover:scale-[1.02] active:scale-95 w-full sm:w-auto"
               >
@@ -717,10 +723,10 @@ export default function Page() {
           </div>
           <div>
             <div className="font-semibold mb-3">Find Us</div>
-            <div className="text-sm text-[#f5eddc]/70 flex items-start gap-2"><MapPin className="h-4 w-4 mt-1"/> 911 Market Pl Blvd, Suite L, Cumming, GA 30041</div>
+            <div className="text-sm text-[#f5eddc]/70 flex items-start gap-2"><MapPin className="h-4 w-4 mt-1" /> 911 Market Pl Blvd, Suite L, Cumming, GA 30041</div>
             <div className="text-sm text-[#f5eddc]/70 mt-2">Phone: (770) 555‑0123</div>
             <a href="https://instagram.com/chaibisket_eats" target="_blank" rel="noreferrer" className="inline-flex items-center gap-2 mt-4 text-[#f5eddc] hover:text-[#ffd9a0]">
-              <Instagram className="h-4 w-4"/> Follow on Instagram
+              <Instagram className="h-4 w-4" /> Follow on Instagram
             </a>
           </div>
         </Container>

@@ -54,9 +54,9 @@ export default function CartPage() {
       removeFromCart(id);
       return;
     }
-    
-    setCart(prevCart => 
-      prevCart.map(item => 
+
+    setCart(prevCart =>
+      prevCart.map(item =>
         item.id === id ? { ...item, quantity } : item
       )
     );
@@ -79,7 +79,7 @@ export default function CartPage() {
   const handleCheckout = () => {
     // Check if user is logged in
     const isLoggedIn = localStorage.getItem('user');
-    
+
     if (isLoggedIn) {
       // User is logged in, proceed to checkout
       router.push('/checkout');
@@ -115,8 +115,8 @@ export default function CartPage() {
               <h1 className="text-3xl md:text-4xl font-bold text-[#f5eddc]">Your Cart</h1>
             </div>
           </div>
-          <Button 
-            variant="outline" 
+          <Button
+            variant="outline"
             onClick={() => router.back()}
             className="flex items-center gap-2 border-[#2d1a11] text-[#f5eddc] hover:bg-[#120a07]"
           >
@@ -132,8 +132,8 @@ export default function CartPage() {
             <ShoppingCart className="h-16 w-16 text-[#f5eddc]/30 mx-auto mb-4" />
             <h2 className="text-xl font-semibold mb-2">Your cart is empty</h2>
             <p className="text-[#f5eddc]/70 mb-6">Looks like you haven&apos;t added anything to your cart yet</p>
-            <Button 
-              onClick={() => router.push('/')}
+            <Button
+              onClick={() => router.push('/#menu')}
               className="bg-[#c87534] hover:bg-[#d8843d] text-[#120a06]"
             >
               Browse Menu
@@ -147,7 +147,7 @@ export default function CartPage() {
                   {cart.map((item) => {
                     const menuItem = getMenuItem(item.id);
                     if (!menuItem) return null;
-                    
+
                     return (
                       <div key={item.id} className="p-6 flex flex-col sm:flex-row gap-4">
                         <div className="relative w-full sm:w-24 h-24 flex-shrink-0 rounded-lg overflow-hidden border border-[#2d1a11]">
@@ -162,7 +162,7 @@ export default function CartPage() {
                             }}
                           />
                         </div>
-                        
+
                         <div className="flex-1">
                           <div className="flex justify-between">
                             <div>
@@ -177,7 +177,7 @@ export default function CartPage() {
                               <X className="h-4 w-4" />
                             </Button>
                           </div>
-                          
+
                           <div className="flex items-center justify-between mt-4">
                             <div className="flex items-center border border-[#2d1a11] rounded-lg bg-[#050302]">
                               <Button
@@ -196,7 +196,7 @@ export default function CartPage() {
                                 <Plus className="h-4 w-4" />
                               </Button>
                             </div>
-                            
+
                             <div className="font-semibold text-[#f0a35c]">
                               ${(menuItem.price * item.quantity).toFixed(2)}
                             </div>
@@ -208,11 +208,11 @@ export default function CartPage() {
                 </div>
               </div>
             </div>
-            
+
             <div>
               <div className="bg-[#120a07] rounded-2xl shadow-sm border border-[#2d1a11] p-6 sticky top-8">
                 <h2 className="text-xl font-semibold text-[#f5eddc] mb-6">Order Summary</h2>
-                
+
                 <div className="space-y-4 mb-6">
                   <div className="flex justify-between">
                     <span className="text-[#f5eddc]/70">Subtotal</span>
@@ -231,17 +231,17 @@ export default function CartPage() {
                     <span>${(calculateTotal() * 1.08 + 2.99).toFixed(2)}</span>
                   </div>
                 </div>
-                
-                <Button 
+
+                <Button
                   onClick={handleCheckout}
                   className="w-full bg-[#c87534] hover:bg-[#d8843d] text-[#120a06] font-medium py-3 rounded-xl"
                 >
                   Proceed to Checkout
                 </Button>
-                
-                <Button 
+
+                <Button
                   variant="outline"
-                  onClick={() => router.push('/')}
+                  onClick={() => router.push('/#menu')}
                   className="w-full mt-3 border-[#2d1a11] text-[#f5eddc] hover:bg-[#120a07]"
                 >
                   Continue Shopping

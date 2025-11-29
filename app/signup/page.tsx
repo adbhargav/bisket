@@ -50,13 +50,13 @@ export default function SignupPage() {
       zipCode: "",
       general: ""
     };
-    
+
     // Name validation
     if (!formData.name.trim()) {
       newErrors.name = "Name is required";
       valid = false;
     }
-    
+
     // Email validation
     if (!formData.email) {
       newErrors.email = "Email is required";
@@ -65,7 +65,7 @@ export default function SignupPage() {
       newErrors.email = "Please enter a valid email address";
       valid = false;
     }
-    
+
     // Password validation
     if (!formData.password) {
       newErrors.password = "Password is required";
@@ -74,7 +74,7 @@ export default function SignupPage() {
       newErrors.password = "Password must be at least 6 characters";
       valid = false;
     }
-    
+
     // Confirm password validation
     if (!formData.confirmPassword) {
       newErrors.confirmPassword = "Please confirm your password";
@@ -83,40 +83,40 @@ export default function SignupPage() {
       newErrors.confirmPassword = "Passwords do not match";
       valid = false;
     }
-    
+
     // Address validation
     if (!formData.address.trim()) {
       newErrors.address = "Address is required";
       valid = false;
     }
-    
+
     // City validation
     if (!formData.city.trim()) {
       newErrors.city = "City is required";
       valid = false;
     }
-    
+
     // State validation
     if (!formData.state.trim()) {
       newErrors.state = "State is required";
       valid = false;
     }
-    
+
     // ZIP code validation - trim whitespace before validation
     const trimmedZipCode = formData.zipCode.trim();
     if (!trimmedZipCode) {
       newErrors.zipCode = "ZIP code is required";
       valid = false;
-    } else if (!/^[0-9]{5}(?:-[0-9]{4})?$/.test(trimmedZipCode)) {
-      newErrors.zipCode = "Please enter a valid ZIP code (e.g., 12345 or 12345-6789)";
+    } else if (!/^[0-9]{5,6}$/.test(trimmedZipCode)) {
+      newErrors.zipCode = "Please enter a valid ZIP/PIN code (5 digits for USA, 6 digits for India)";
       valid = false;
     }
-    
+
     if (!valid) {
       setErrors(newErrors);
       return false;
     }
-    
+
     return true;
   };
 
@@ -126,7 +126,7 @@ export default function SignupPage() {
       ...prev,
       [name]: value
     }));
-    
+
     // Clear error when user starts typing
     if (errors[name as keyof typeof errors]) {
       setErrors(prev => ({ ...prev, [name]: "" }));
@@ -135,7 +135,7 @@ export default function SignupPage() {
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    
+
     // Trim whitespace from all fields before validation
     const trimmedFormData = {
       ...formData,
@@ -146,19 +146,19 @@ export default function SignupPage() {
       state: formData.state.trim(),
       zipCode: formData.zipCode.trim()
     };
-    
+
     setFormData(trimmedFormData);
-    
+
     if (!validateForm()) {
       return;
     }
-    
+
     setIsLoading(true);
-    
+
     // Save user to localStorage
     try {
       const users = JSON.parse(localStorage.getItem('users') || '[]');
-      
+
       // Check if user already exists
       const existingUser = users.find((u: any) => u.email === trimmedFormData.email);
       if (existingUser) {
@@ -169,7 +169,7 @@ export default function SignupPage() {
         setIsLoading(false);
         return;
       }
-      
+
       // Create new user
       const newUser = {
         id: Date.now().toString(),
@@ -184,10 +184,10 @@ export default function SignupPage() {
         joinDate: new Date().toLocaleDateString(),
         loyaltyPoints: 0,
       };
-      
+
       users.push(newUser);
       localStorage.setItem('users', JSON.stringify(users));
-      
+
       // Save to session
       const userSession = {
         id: newUser.id,
@@ -201,9 +201,9 @@ export default function SignupPage() {
         joinDate: newUser.joinDate,
         loyaltyPoints: newUser.loyaltyPoints,
       };
-      
+
       localStorage.setItem('user', JSON.stringify(userSession));
-      
+
       setIsLoading(false);
       router.push("/profile"); // Redirect to profile page after signup
     } catch (error) {
@@ -232,7 +232,7 @@ export default function SignupPage() {
                 {errors.general}
               </div>
             )}
-            
+
             <div className="space-y-2">
               <label htmlFor="name" className="text-sm font-medium text-[#f5eddc]">Full Name</label>
               <input
@@ -251,7 +251,7 @@ export default function SignupPage() {
                 <p id="name-error" className="text-sm text-rose-600">{errors.name}</p>
               )}
             </div>
-            
+
             <div className="space-y-2">
               <label htmlFor="email" className="text-sm font-medium text-[#f5eddc]">Email</label>
               <input
@@ -270,7 +270,7 @@ export default function SignupPage() {
                 <p id="email-error" className="text-sm text-rose-600">{errors.email}</p>
               )}
             </div>
-            
+
             <div className="space-y-2">
               <label htmlFor="password" className="text-sm font-medium text-[#f5eddc]">Password</label>
               <div className="relative">
@@ -303,7 +303,7 @@ export default function SignupPage() {
                 <p id="password-error" className="text-sm text-rose-600">{errors.password}</p>
               )}
             </div>
-            
+
             <div className="space-y-2">
               <label htmlFor="confirmPassword" className="text-sm font-medium text-[#f5eddc]">Confirm Password</label>
               <div className="relative">
@@ -336,10 +336,10 @@ export default function SignupPage() {
                 <p id="confirm-password-error" className="text-sm text-rose-600">{errors.confirmPassword}</p>
               )}
             </div>
-            
+
             <div className="border-t border-[#2d1a11] pt-4 mt-4">
               <h3 className="text-lg font-medium text-[#f5eddc] mb-3">Delivery Address</h3>
-              
+
               <div className="space-y-2">
                 <label htmlFor="address" className="text-sm font-medium text-[#f5eddc]">Street Address</label>
                 <input
@@ -358,7 +358,7 @@ export default function SignupPage() {
                   <p id="address-error" className="text-sm text-rose-600">{errors.address}</p>
                 )}
               </div>
-              
+
               <div className="grid grid-cols-2 gap-4 mt-3">
                 <div className="space-y-2">
                   <label htmlFor="city" className="text-sm font-medium text-[#f5eddc]">City</label>
@@ -378,7 +378,7 @@ export default function SignupPage() {
                     <p id="city-error" className="text-sm text-rose-600">{errors.city}</p>
                   )}
                 </div>
-                
+
                 <div className="space-y-2">
                   <label htmlFor="state" className="text-sm font-medium text-[#f5eddc]">State</label>
                   <input
@@ -398,7 +398,7 @@ export default function SignupPage() {
                   )}
                 </div>
               </div>
-              
+
               <div className="space-y-2 mt-3">
                 <label htmlFor="zipCode" className="text-sm font-medium text-[#f5eddc]">ZIP Code</label>
                 <input
@@ -409,7 +409,7 @@ export default function SignupPage() {
                   onChange={handleChange}
                   required
                   className={`w-full border rounded-xl px-4 py-3 bg-[#050302] text-[#f5eddc] placeholder:text-[#f5eddc]/40 focus:outline-none focus:ring-2 focus:ring-[#c87534] ${errors.zipCode ? "border-[#ff9b7a]" : "border-[#2d1a11]"}`}
-                  placeholder="12345"
+                  placeholder="12345 or 123456"
                   aria-invalid={!!errors.zipCode}
                   aria-describedby={errors.zipCode ? "zipCode-error" : undefined}
                 />
@@ -418,29 +418,29 @@ export default function SignupPage() {
                 )}
               </div>
             </div>
-            
-            <Button 
-              type="submit" 
+
+            <Button
+              type="submit"
               className="w-full bg-[#c87534] hover:bg-[#d8843d] text-[#120a06] font-medium py-3 rounded-xl shadow-sm hover:shadow-md transition-all duration-200 mt-6"
               disabled={isLoading}
             >
               {isLoading ? "Creating Account..." : "Sign Up"}
             </Button>
           </form>
-          
+
           <div className="mt-6 text-center text-[#f5eddc]/80">
             <span>Already have an account? </span>
-            <Link 
-              href="/login" 
+            <Link
+              href="/login"
               className="text-[#f0a35c] hover:text-[#ffd9a0] font-medium text-lg underline underline-offset-2 hover:underline-offset-4 transition-all"
             >
               Sign in
             </Link>
           </div>
-          
+
           <div className="mt-4 text-center">
-            <Link 
-              href="/" 
+            <Link
+              href="/"
               className="text-[#f0a35c] hover:text-[#ffd9a0] font-medium text-lg underline underline-offset-2 hover:underline-offset-4 transition-all"
             >
               ← Back to Home

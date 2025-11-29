@@ -56,20 +56,20 @@ const Navbar = ({ cartCount }: NavbarProps) => {
   // Check login status on mount
   useEffect(() => {
     checkLoginStatus();
-    
+
     // Listen for storage changes (in case user logs in/out in another tab)
     const handleStorageChange = () => {
       checkLoginStatus();
     };
-    
+
     // Listen for custom logout event
     const handleLogout = () => {
       checkLoginStatus();
     };
-    
+
     window.addEventListener('storage', handleStorageChange);
     window.addEventListener('user-logout', handleLogout);
-    
+
     return () => {
       window.removeEventListener('storage', handleStorageChange);
       window.removeEventListener('user-logout', handleLogout);
@@ -118,14 +118,13 @@ const Navbar = ({ cartCount }: NavbarProps) => {
   };
 
   return (
-    <nav 
+    <nav
       id="navbar"
-      className={`sticky top-0 z-50 w-full border-b border-[#2d1a11] transition-all duration-300 ${
-        isScrolled ? 'bg-[#050302]/95 backdrop-blur-md py-2 shadow-sm' : 'bg-[#050302]/85 backdrop-blur-sm py-3'
-      }`}
+      className={`sticky top-0 z-50 w-full border-b border-[#2d1a11] transition-all duration-300 ${isScrolled ? 'bg-[#050302]/95 backdrop-blur-md py-2 shadow-sm' : 'bg-[#050302]/85 backdrop-blur-sm py-3'
+        }`}
     >
       <div className="container flex h-auto items-center justify-between px-4 md:px-6">
-        
+
         {/* Logo */}
         <Link href="/" className="flex items-center space-x-3">
           <div className="h-14 w-14 rounded-full border border-[#2d1a11] overflow-hidden bg-[#120a07]">
@@ -140,7 +139,7 @@ const Navbar = ({ cartCount }: NavbarProps) => {
         {/* Desktop Navigation */}
         <div className="hidden md:flex items-center space-x-6">
           <Link href="#menu" className="text-[#f5eddc]/80 hover:text-[#ffd9a0] transition-colors font-medium">Menu</Link>
-          <Link href="#story" className="text-[#f5eddc]/80 hover:text-[#ffd9a0] transition-colors font-medium">Our Story</Link>
+          <Link href="#our-story" className="text-[#f5eddc]/80 hover:text-[#ffd9a0] transition-colors font-medium">Our Story</Link>
           <Link href="#location" className="text-[#f5eddc]/80 hover:text-[#ffd9a0] transition-colors font-medium">Location</Link>
           <Link href="#contact" className="text-[#f5eddc]/80 hover:text-[#ffd9a0] transition-colors font-medium">Contact</Link>
         </div>
@@ -179,17 +178,17 @@ const Navbar = ({ cartCount }: NavbarProps) => {
           <div className="hidden md:flex items-center space-x-2">
             {isLoggedIn ? (
               <>
-                <Button 
-                  variant="outline" 
-                  size="default" 
+                <Button
+                  variant="outline"
+                  size="default"
                   className="text-sm h-8 px-3"
                   onClick={() => router.push('/profile')}
                 >
                   {userName}
                 </Button>
-                <Button 
-                  variant="outline" 
-                  size="default" 
+                <Button
+                  variant="outline"
+                  size="default"
                   className="text-sm h-8 px-3"
                   onClick={handleLogout}
                 >
@@ -207,7 +206,7 @@ const Navbar = ({ cartCount }: NavbarProps) => {
               </>
             )}
           </div>
-          
+
           {/* Mobile Auth Button */}
           <div className="md:hidden relative">
             <Button
@@ -221,15 +220,15 @@ const Navbar = ({ cartCount }: NavbarProps) => {
             >
               <User className="h-5 w-5" />
             </Button>
-            
+
             {/* Auth Dropdown */}
             {isAuthOpen && (
               <div className="absolute right-0 mt-2 w-48 bg-[#120a07] border border-[#2d1a11] rounded-lg shadow-lg z-50">
                 <div className="py-1">
                   {isLoggedIn ? (
                     <>
-                      <Button 
-                        variant="ghost" 
+                      <Button
+                        variant="ghost"
                         className="w-full justify-start px-4 py-2 text-left hover:bg-[#1c120c] text-[#f5eddc]"
                         onClick={() => {
                           setIsAuthOpen(false);
@@ -239,8 +238,8 @@ const Navbar = ({ cartCount }: NavbarProps) => {
                       >
                         Profile
                       </Button>
-                      <Button 
-                        variant="ghost" 
+                      <Button
+                        variant="ghost"
                         className="w-full justify-start px-4 py-2 text-left hover:bg-[#1c120c] text-[#f5eddc]"
                         onClick={() => {
                           setIsAuthOpen(false);
@@ -253,8 +252,8 @@ const Navbar = ({ cartCount }: NavbarProps) => {
                     </>
                   ) : (
                     <>
-                      <Button 
-                        variant="ghost" 
+                      <Button
+                        variant="ghost"
                         className="w-full justify-start px-4 py-2 text-left hover:bg-[#1c120c] text-[#f5eddc]"
                         asChild
                         onClick={() => {
@@ -264,8 +263,8 @@ const Navbar = ({ cartCount }: NavbarProps) => {
                       >
                         <Link href="/login">Login</Link>
                       </Button>
-                      <Button 
-                        variant="ghost" 
+                      <Button
+                        variant="ghost"
                         className="w-full justify-start px-4 py-2 text-left hover:bg-[#1c120c] text-[#f5eddc]"
                         asChild
                         onClick={() => {
@@ -288,29 +287,29 @@ const Navbar = ({ cartCount }: NavbarProps) => {
       {isMenuOpen && (
         <div className="md:hidden absolute top-full left-0 right-0 bg-[#120a07] border-b border-[#2d1a11] shadow-lg animate-in slide-in-from-top-2 duration-200">
           <div className="container px-4 py-3 flex flex-col space-y-3">
-            <Link 
-              href="#menu" 
+            <Link
+              href="#menu"
               className="py-3 text-[#f5eddc]/90 hover:text-[#ffd9a0] transition-colors font-medium border-b border-[#2d1a11]"
               onClick={() => setIsMenuOpen(false)}
             >
               Menu
             </Link>
-            <Link 
-              href="#story" 
+            <Link
+              href="#our-story"
               className="py-3 text-[#f5eddc]/90 hover:text-[#ffd9a0] transition-colors font-medium border-b border-[#2d1a11]"
               onClick={() => setIsMenuOpen(false)}
             >
               Our Story
             </Link>
-            <Link 
-              href="#location" 
+            <Link
+              href="#location"
               className="py-3 text-[#f5eddc]/90 hover:text-[#ffd9a0] transition-colors font-medium border-b border-[#2d1a11]"
               onClick={() => setIsMenuOpen(false)}
             >
               Location
             </Link>
-            <Link 
-              href="#contact" 
+            <Link
+              href="#contact"
               className="py-3 text-[#f5eddc]/90 hover:text-[#ffd9a0] transition-colors font-medium border-b border-[#2d1a11]"
               onClick={() => setIsMenuOpen(false)}
             >
